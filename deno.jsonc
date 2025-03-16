@@ -6,7 +6,7 @@
   },
   "tasks": {
     "dev": "deno run --allow-net -R --watch server.ts",
-    "start": "deno run --allow-net --allow-read server.ts"
+    "start": "deno run --allow-net -R server.ts"
   },
   "fmt": {
     "indentWidth": 2,
