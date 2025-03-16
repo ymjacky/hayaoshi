@@ -183,8 +183,6 @@ export class Server extends EventTarget {
         // GET以外のメソッドは拒否
         return new Response(null, { status: 404 }); // 404: Not Found
       }
-
-      return new Response(`hello. ${new Date()}`);
     };
 
     // websocket接続イベント
