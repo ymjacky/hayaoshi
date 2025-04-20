@@ -6,12 +6,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="output.css" rel="stylesheet">
   <title>HAYAOSHI</title>
+  <!-- QRコードライブラリを追加 -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+  <!-- 直接CSSは使わずにTailwindで全部やるよ！ -->
 </head>
 
-<body>
-  <h1 class="text-3xl font-bold underline bg-sky-900">
-    HAYAOSHI
-  </h1>
+<body class="bg-gray-50">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold underline bg-sky-900 text-white p-4 text-center rounded-lg shadow-md mb-8">
+      HAYAOSHI
+    </h1>
+    
+    <!-- QRコード表示エリア -->
+    <div class="flex flex-col items-center justify-center mt-8 mb-12">
+      <div class="bg-white p-6 rounded-xl shadow-lg max-w-sm w-full text-center">
+        <h2 class="text-xl font-bold mb-4 text-sky-800">管理画面へ</h2>
+        <!-- QRコード表示部分 -->
+        <div id="qrcode" class="flex justify-center items-center my-4"></div>
+        <p id="qr-url" class="mt-3 text-sm text-gray-600 break-all"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- QRコード生成スクリプト -->
+  <script>
+    // ページロード時にQRコードを生成
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        // UUIDを取得
+        const response = await fetch('/api/uuid');
+        const data = await response.json();
+        const uuid = data.uuid;
+        
+        // QRコード用のURLを生成
+        const managerUrl = `${window.location.origin}/manager.html?uuid=${uuid}`;
+        
+        // QRコードを生成
+        const qr = qrcode(0, 'M');
+        qr.addData(managerUrl);
+        qr.make();
+        
+        // QRコードをHTMLに表示（スタイル調整済みのクラスを追加）
+        const img = qr.createImgTag(5);
+        document.getElementById('qrcode').innerHTML = img;
+        
+        // URLも表示
+        document.getElementById('qr-url').textContent = managerUrl;
+        
+        console.log('QRコード生成完了:', managerUrl);
+      } catch (error) {
+        console.error('QRコード生成エラー:', error);
+      }
+    });
+  </script>
 </body>
 
 </html>

@@ -93,6 +93,11 @@ export class Server extends EventTarget {
     this.addEventListener(type, callback as EventListener);
   };
 
+  // UUIDを生成するメソッド
+  generateUUID(): string {
+    return crypto.randomUUID();
+  }
+
   constructor() {
     super();
     this.clients = new Map<WebSocket, Client>();
@@ -120,27 +125,38 @@ export class Server extends EventTarget {
       // debug('dir', dir, 'basename:', base);
 
       // DOS対策
-      {
-        const dosKey = `${remoteHost}:${ext}`; // IP Address : extname
-        const lastAccess = this.accessList.get(dosKey);
-        if (lastAccess) {
-          // debug(`last access. remoteHost: ${remoteHost}, ${lastAccess}`);
-          let later: Date = new Date(lastAccess);
-          later.setSeconds(lastAccess.getSeconds() + 5); // 5秒後
+      // {
+      //   const dosKey = `${remoteHost}:${ext}`; // IP Address : extname
+      //   const lastAccess = this.accessList.get(dosKey);
+      //   if (lastAccess) {
+      //     // debug(`last access. remoteHost: ${remoteHost}, ${lastAccess}`);
+      //     let later: Date = new Date(lastAccess);
+      //     later.setSeconds(lastAccess.getSeconds() + 5); // 5秒後
 
-          // debug(`later: ${later}, now ${new Date()}`);
-          if (later > new Date()) {
-            // 5秒以内のアクセスは拒絶
-            error(`Deny continuous access. address: ${remoteHost}`);
-            return new Response(null, { status: 429 }); // 429: Too Many Requests
-          }
-        }
-        debug(`append accessList. remoteHost: ${remoteHost}`);
-        this.accessList.set(dosKey, new Date());
-      }
+      //     // debug(`later: ${later}, now ${new Date()}`);
+      //     if (later > new Date()) {
+      //       // 5秒以内のアクセスは拒絶
+      //       error(`Deny continuous access. address: ${remoteHost}`);
+      //       return new Response(null, { status: 429 }); // 429: Too Many Requests
+      //     }
+      //   }
+      //   debug(`append accessList. remoteHost: ${remoteHost}`);
+      //   this.accessList.set(dosKey, new Date());
+      // }
 
       // HTTP GETリクエストの処理
       if (method === 'GET') {
+        // UUIDを提供するAPIエンドポイント
+        if (requestPath === '/api/uuid') {
+          const uuid = this.generateUUID();
+          debug('UUID generated:', uuid);
+          return new Response(JSON.stringify({ uuid }), {
+            headers: {
+              'content-type': 'application/json',
+            },
+          });
+        }
+
         // websocket接続の処理
         if (request.headers.get('upgrade') === 'websocket') {
           info(`receive upgradeWebSocket. host: ${remoteHost}`);
