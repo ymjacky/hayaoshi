@@ -5,5 +5,20 @@
   "editor.formatOnSave": true,
   "[typescript]": {
     "editor.defaultFormatter": "denoland.vscode-deno"
-  }
+  },
+  
+  // ターミナル関連の設定
+  "terminal.integrated.enablePersistentSessions": true,
+  "terminal.integrated.persistentSessionReviveProcess": "never",
+  "terminal.integrated.tabs.enabled": true,
+  // 非推奨の設定を削除して代わりに新しい設定を使うよ
+  "terminal.integrated.enableVisualBell": false,
+  "accessibility.signals.sound": false,
+  "terminal.integrated.confirmOnExit": "never",
+  
+  // これでターミナルが無限に増えるのを防ぐよ～
+  "terminal.integrated.splitCwd": "inherited",
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.defaultProfile.osx": "bash",
+  "terminal.integrated.defaultLocation": "editor"
 }
