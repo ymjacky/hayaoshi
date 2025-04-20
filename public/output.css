@@ -7,6 +7,7 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-900: oklch(0.396 0.141 25.723);
+    --color-sky-900: oklch(0.391 0.09 240.876);
     --text-3xl: 1.875rem;
     --text-3xl--line-height: calc(2.25 / 1.875);
     --font-weight-bold: 700;
@@ -168,6 +169,9 @@
 @layer utilities {
   .bg-red-900 {
     background-color: var(--color-red-900);
+  }
+  .bg-sky-900 {
+    background-color: var(--color-sky-900);
   }
   .text-3xl {
     font-size: var(--text-3xl);
