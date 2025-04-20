@@ -169,10 +169,19 @@ export class Server extends EventTarget {
         debug('localFileUrl', localFileUrl);
         const localFile = Deno.readFileSync(localFileUrl);
 
-        let contentType = 'text/html';
-        if ('.mjs' === ext) {
-          contentType = 'text/javascript';
-        }
+        const contentType = ((ext: string) => {
+          switch (ext) {
+            case '.mjs':
+              return 'text/javascript';
+            case '.css':
+              return 'text/css';
+            case '.ico':
+              return 'image/x-icon';
+            default:
+              return 'text/html';
+          }
+        })(ext);
+
         debug(`contentType: ${contentType}, ext: ${ext}`);
         return new Response(localFile, {
           headers: {

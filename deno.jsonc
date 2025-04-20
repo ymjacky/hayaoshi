@@ -6,7 +6,8 @@
   },
   "tasks": {
     "dev": "deno run --allow-net -R --watch server.ts",
-    "start": "deno run --allow-net -R server.ts"
+    "start": "deno run --allow-net -R server.ts",
+    "dev-css": "deno run --allow-ffi --allow-env --allow-read --allow-write npm:@tailwindcss/cli -i ./public/input.css -o ./public/output.css --watch"
   },
   "fmt": {
     "indentWidth": 2,
@@ -27,5 +28,11 @@
 
     "report": "pretty"
   },
-  "imports": { "@std/path": "jsr:@std/path@^1.0.6", "@ymjacky/mqtt5": "jsr:@ymjacky/mqtt5@^0.0.16" }
+  "imports": {
+    "@std/path": "jsr:@std/path@^1.0.6",
+    "@tailwindcss/cli": "npm:@tailwindcss/cli@^4.0.14",
+    "@ymjacky/mqtt5": "jsr:@ymjacky/mqtt5@^0.0.16",
+    "tailwindcss": "npm:tailwindcss@^4.0.14"
+  },
+  "nodeModulesDir": "auto"
 }
